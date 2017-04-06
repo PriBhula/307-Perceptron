@@ -24,26 +24,6 @@ public class Main {
         algorithm();
     }
 
-    private void intialiseFeatures() {
-        features = new ArrayList<Feature>();
-        Random random = new Random();
-        for (int i =0; i<50;i++){
-
-        }
-    }
-
-    private double[] initialiseWeights(){
-        double[] weights = new double [51];
-        Random random = new Random();
-
-        for(int i=1;i<51;i++) {
-            weights[i] = random.nextDouble();
-        }
-
-        weights[0] = 1;
-        return weights;
-    }
-
     public void load(String file){
         boolean[][] newimage = null;
         try{
@@ -70,7 +50,56 @@ public class Main {
         }
     }
 
+    private void intialiseFeatures() {
+        features = new ArrayList<Feature>();
+        Random random = new Random();
+        for (int i =0; i<50;i++){
+            int[] rs = new int[4];
+            int[] cs = new int[4];
+            boolean[] ss = new boolean[4];
+
+            for(int j=0;i<4;i++){
+                int k = random.nextInt(10);
+                rs[j] = k;
+            }
+
+            for(int j=0;i<4;i++){
+                int k = random.nextInt(10);
+                cs[j] = k;
+            }
+
+            for(int j=0;i<4;i++){
+                boolean k = random.nextBoolean();
+                ss[j] = k;
+            }
+            features.add(new Feature(rs,cs,ss));
+        }
+    }
+
+    private double[] initialiseWeights(){
+        double[] weights = new double [51];
+        Random random = new Random();
+
+        for(int i=1;i<51;i++) {
+            weights[i] = random.nextDouble();
+        }
+
+        weights[0] = 1;
+        return weights;
+    }
+
+    private void predict(){
+        for (Image i: images){
+
+        }
+    }
+
     private void algorithm(){
 
+
+    }
+
+    public static void main(String[] args){
+        new Main(args[0]);
     }
 }
