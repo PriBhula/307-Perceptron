@@ -6,6 +6,8 @@ public class Feature {
     int[] rows;
     int[] cols;
     boolean[] signs;
+    int value;
+
 
     public Feature(int[] row, int[] col, boolean[] sign){
         this.rows=row;
@@ -37,5 +39,11 @@ public class Feature {
         this.signs =    s;
     }
 
+    public int getValue() {
+        return value;
+    }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
 }

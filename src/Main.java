@@ -15,19 +15,16 @@ public class Main {
     private String categoryName;
 
     private ArrayList<Image> images;
-    private ArrayList<Feature> features;
+    static ArrayList<Feature> features;
+    private double[] weights;
 
-    public Main(String args){
-        load(args);
-        intialiseFeatures();
-        initialiseWeights();
-        algorithm();
-    }
-
-    public void load(String file){
+    public void loadFile(String file){
+        System.out.println("loading");
+        images = new ArrayList<Image>();
         boolean[][] newimage = null;
         try{
             java.util.regex.Pattern bit = java.util.regex.Pattern.compile("[01]");
+            System.out.println(file);
             Scanner f = new Scanner(new File(file));
             if (!f.next().equals("P1")) System.out.println("Not a P1 PBM file" );
             category = f.next().substring(1);
@@ -51,6 +48,7 @@ public class Main {
     }
 
     private void intialiseFeatures() {
+        System.out.println("initFeatures");
         features = new ArrayList<Feature>();
         Random random = new Random();
         for (int i =0; i<50;i++){
@@ -77,7 +75,8 @@ public class Main {
     }
 
     private double[] initialiseWeights(){
-        double[] weights = new double [51];
+        System.out.println("initWeights");
+        weights = new double [51];
         Random random = new Random();
 
         for(int i=1;i<51;i++) {
@@ -89,17 +88,57 @@ public class Main {
     }
 
     private void predict(){
+        System.out.println("predict");
         for (Image i: images){
+            double prediction = 0;
+            for (int j=0;j<i.featureValues.length;j++){
+                prediction += (weights[j]*i.featureValues[j]);
+            }
+
+            if (prediction>0){
+                i.setPrediction("Yes");
+            }
+            else{
+                i.setPrediction("other");
+            }
 
         }
     }
 
     private void algorithm(){
-
-
+        System.out.println("algorithm");
+        for (int epoch=0;epoch<100;epoch++){
+            int correct=0;
+            predict();
+            for (Image image:images){
+                image.calcFeatureValues();
+                if(image.getCat().equals(image.getPrediction())){
+                    correct++;
+                }
+                else{
+                    if (image.getCat().equals("other") && image.getPrediction().equals("Yes")){
+                        for (int neg=0;neg<51;neg++){
+                            weights[neg] -= image.featureValues[neg];
+                        }
+                    }
+                    else if (image.getCat().equals("Yes") && image.getPrediction().equals("other")){
+                        for (int pos=0;pos<51;pos++){
+                            weights[pos] += image.featureValues[pos];
+                        }
+                    }
+                }
+                System.out.println("Accuracy: "+((correct/images.size())*100)+"%");
+            }
+        }
     }
 
+
+
     public static void main(String[] args){
-        new Main(args[0]);
+        Main main = new Main();
+        main.loadFile("image.data");
+        main.initialiseWeights();
+        main.intialiseFeatures();
+        main.algorithm();
     }
 }
