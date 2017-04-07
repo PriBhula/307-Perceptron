@@ -19,31 +19,16 @@ public class Feature {
         return rows;
     }
 
-    public void setRows (int[] r){
-        this.rows = r;
-    }
-
     public int[] getCols(){
         return cols;
-    }
-
-    public void setCols(int[] c){
-        this.cols = c;
     }
 
     public boolean[] getSigns(){
         return signs;
     }
 
-    public void setSigns(boolean[] s){
-        this.signs =    s;
-    }
 
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
+    public String toString(){
+        return "Feature: rows"+rows.length+" cols"+cols.length+" signs"+signs.length;
     }
 }

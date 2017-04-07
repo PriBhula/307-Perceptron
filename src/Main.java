@@ -14,17 +14,16 @@ public class Main {
     private String category = "other";
     private String categoryName;
 
-    private ArrayList<Image> images;
-    static ArrayList<Feature> features;
+    private ArrayList<Image> images = new ArrayList<Image>();
+    static ArrayList<Feature> features = new ArrayList<Feature>();
     private double[] weights;
 
     public void loadFile(String file){
         System.out.println("loading");
-        images = new ArrayList<Image>();
         boolean[][] newimage = null;
         try{
             java.util.regex.Pattern bit = java.util.regex.Pattern.compile("[01]");
-            System.out.println(file);
+            //System.out.println(file);
             Scanner f = new Scanner(new File(file));
             if (!f.next().equals("P1")) System.out.println("Not a P1 PBM file" );
             category = f.next().substring(1);
@@ -38,6 +37,7 @@ public class Main {
                     newimage[r][c] = (f.findWithinHorizon(bit,0).equals("1"));
                 }
                 images.add(new Image(newimage,category));
+                //System.out.println("added image");
             }
             f.close() ;
         }
@@ -49,9 +49,8 @@ public class Main {
 
     private void intialiseFeatures() {
         System.out.println("initFeatures");
-        features = new ArrayList<Feature>();
         Random random = new Random();
-        for (int i =0; i<50;i++){
+        for (int i =0; i<54;i++){
             int[] rs = new int[4];
             int[] cs = new int[4];
             boolean[] ss = new boolean[4];
@@ -72,6 +71,7 @@ public class Main {
             }
             features.add(new Feature(rs,cs,ss));
         }
+        System.out.println("features.size()"+features.size());
     }
 
     private double[] initialiseWeights(){
@@ -127,6 +127,7 @@ public class Main {
                         }
                     }
                 }
+                System.out.println("correct" + correct + " total"+images.size());
                 System.out.println("Accuracy: "+((correct/images.size())*100)+"%");
             }
         }

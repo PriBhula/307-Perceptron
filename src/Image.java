@@ -16,14 +16,14 @@ public class Image {
     }
 
     public void calcFeatureValues(){
-        System.out.println("IMAGEcalcFV");
+        //System.out.println("IMAGEcalcFV");
         ArrayList<Feature> f = Main.features;
-        featureValues[0] = 1;
-        int count =0;
+        //System.out.println(f.size());
         for(int i = 1; i < 50; i++){
             int sum = 0;
             for(int j = 0 ; j < 4;j++){
-                if(image[f.get(i).rows[j]][f.get(i).cols[j]] == f.get(i).signs[j]){
+                //System.out.println("i: "+ i+" j: "+j);
+                if(image[f.get(i).getRows()[j]][f.get(i).getCols()[j]] == f.get(i).getSigns()[j]){
                     sum++;
                 }
             }
@@ -32,9 +32,8 @@ public class Image {
             }else{
                 featureValues[i]= 0;
             }
-            count++;
-            System.out.println("count: "+count);
         }
+        featureValues[0] = 1;
     }
 
     public String getPrediction() {
